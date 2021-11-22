@@ -1,10 +1,11 @@
 package util
 
 import (
-	"io/ioutil"
+	"os"
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"gopkg.in/yaml.v2"
 )
 
 const (
@@ -46,11 +47,13 @@ type ApiConfig struct {
 	UploadFileSize int `default:"100" yaml:"upload_file_size"`
 }
 
-func ReadFile(path string) (data, error) {
-	data, err := ioutil.ReadFile(path)
+func ReadFile(path string) (data *ApiConfig, e error) {
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
+	yaml.Unmarshal(data, conf)
+	return conf, nil
 }
 
 func GetServerFromContext(ctx *gin.Context) {

@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+type DockerClient struct {
+}
+
 func StartContainer(id string) (output string, err error) {
 	command := exec.Command("docker", "start", id)
 	stdout, err := command.Output()
@@ -60,8 +63,8 @@ func GetContainerLogs(id string) (output string, err error) {
 	return string(stdout), nil
 }
 
-func RunContainerCommand(id string, command, string) (response string, err error) {
-	command := exec.Command("docker", "exec", "-w /home/server", id, comamnd)
+func RunContainerCommand(id, command string) (response string, err error) {
+	command := exec.Command("docker", "exec", "-w /home/server", id, command)
 	stdout, err := command.Output()
 	if err != nil {
 		return nil, err
